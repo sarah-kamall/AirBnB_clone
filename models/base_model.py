@@ -1,6 +1,11 @@
-"""#!/usr/bin/python3"""
+#!/usr/bin/python3
 from uuid import uuid4
 from datetime import datetime
+import models
+
+""" 
+ base class module 
+"""
 class BaseModel:
     """Custom base for all the classes in the AirBnb console project
 
@@ -25,9 +30,22 @@ class BaseModel:
             *args(args): arguments
             **kwargs(dict): attrubute values
         """
-        self.id = str(uuid4())
-        self.created_at = datetime.utcnow()
-        self.updated_at = datetime.utcnow()
+        DATE_TIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
+        if kwargs:
+           for key,value in kwargs.items():
+            if key == 'created_at':
+                self.__dict__[key]=datetime.strptime(value, DATE_TIME_FORMAT)
+            elif key == 'updated_at':
+                self.__dict__[key]=datetime.strptime(value, DATE_TIME_FORMAT)
+            elif key == 'id':
+                self.__dict__[key]= str(value)
+            else:
+                self.__dict__[key] = value
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.utcnow()
+            self.updated_at = datetime.utcnow()
+            models.storage.new(self)
     def __str__(self):
         """
         Returns string representation of the class
@@ -38,12 +56,16 @@ class BaseModel:
          updates the public instance attribute updated_at with the current datetime
         """
         self.updated_at=datetime.utcnow()
+        models.storage.save()
     def to_dict(self):
         """
         returns a dictionary containing all keys/values of __dict__ of the instance
         """
-        temp_dict=self.__dict__
-        temp_dict[__class__]=self.__class__.__name__
-        temp_dict['created_at'] = datetime.isoformat(temp_dict['created_at'])
-        temp_dict['updated_at'] = datetime.isoformat(temp_dict['updated_at'])
+        temp_dict={}
+        for key,value in self.__dict__.items():
+            if key == 'created_at' or key == 'updated_at':
+                temp_dict[key] = value.isoformat()
+            else:
+                temp_dict[key] = value 
+        temp_dict["__class__"] = self.__class__.__name__ 
         return temp_dict

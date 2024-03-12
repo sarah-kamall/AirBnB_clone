@@ -130,7 +130,7 @@ class HBNBCommand(cmd.Cmd):
         """ 
         do nothing on empty lines
         """
-        return False
+        return True
     def do_help(self,args):
         """
         help : displays help for args

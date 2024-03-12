@@ -3,12 +3,117 @@
  entry point of the command interpreter
 """
 import cmd 
- 
+import uuid
+from models.base_model import BaseModel
+import json 
+from models import storage
 class HBNBCommand(cmd.Cmd):
     """
     command interpreter class
     """
     prompt = '(hbnb) '
+    def do_create(self, line):
+        """Creates a new instance of @cls_name class,
+        and prints the new instance's ID.
+
+        Args:
+            line(args): Arguments to enter with command: <class name>
+            Example: 'create User'
+
+        """
+        if(my_error(self,line,1)):
+            return 
+        args.line.split(" ")
+        cls = eval(args[0])
+        print(cls.id)
+    def do_show(self, line):
+        """
+        Prints the string representation of an instance based on the class name and id
+        Args:
+            line(line): to enter with command <class name> <id>
+            Example: 'show User 1234-1234-1234'
+
+        """
+        if (my_error(self,line,2)):
+            return 
+        args = line.split(" ")
+        d = storage.all()
+        if args[1][0] == '"':
+            args[1] = args[1].replace('"', "")
+        key = args[0] + '.' + args[1]
+        print(d[key])
+    def do_destroy(self,line):
+        """Deletes an instance of a certain class.
+
+        Args:
+            line(args): to enter with command: <class name> <id>
+            Example: 'destroy User 1234-1234-1234'
+
+        """
+        rgs = line.split(" ")
+        d = storage.all()
+        if args[1][0] == '"':
+            args[1] = args[1].replace('"', "")
+        key = args[0] + '.' + args[1]
+        del(d[key])
+        storage.save()
+    def do_all():
+        """Shows all instances, or instances of a certain class
+
+        Args: 
+            line(args): enter with command (optional): <class name>
+            Example: 'all' OR 'all User'
+
+        """
+        store = storage.all()
+
+        if not line:
+            print([str(x) for x in store.values()])
+            return
+        args = line.split()
+        f args[1][0] == '"':
+            args[1] = args[1].replace('"', "")
+        key = args[0] + '.' + args[1]
+        for my_key in store:
+            if (key == my_key):
+                
+        if (my_error(self,line,2)):
+            return
+         
+        
+    def my_error(self,line,numargs):
+        """
+        A function that displays errors to the users
+        """
+        classes = ['BaseModule']
+        error_megs=["** class name missing **",
+                    "** class doesn't exist **",
+                    "** instance id missing **",
+                    "** no instance found **",
+                    "** attribute name missing **",
+                    "** value missing **"]
+        if not line:
+            print(error_megs[0])
+            return True
+        args = line.split(" ")
+        if numargs >=1 and (args[0] not in classes):
+            priint (error_megs[1])
+            return True 
+        if numargs >=2 and len(args) < 2:
+            print(error_megs[2])
+            return True 
+        d = storage.all()
+
+        for i in range(len(args)):
+            if args[i][0] == '"':
+                args[i] = args[i].replace('"', "")
+        key = args[0] + '.' + args[1]
+        if numargs >=2 and key not in d:
+            print(msg[3])
+            return 1
+        elif numargs == 2:
+            return 0 
+        
     def do_quit(self, line):
         """
         exit the program

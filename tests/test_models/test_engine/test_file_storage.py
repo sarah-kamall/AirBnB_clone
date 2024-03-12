@@ -29,7 +29,8 @@ class TestFileStorage(unittest.TestCase):
         """
         test if a valid objects
         """
-        pass
+        fs = FileStorage()
+        self.assertEqual(type(fs.__objects),dict)
 
 if __name__ == "__main__":
     unittest.main()

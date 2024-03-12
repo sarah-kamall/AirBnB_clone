@@ -42,4 +42,7 @@ class FileStorage():
         except Exception:
             pass
     
+    def get_file_path(self):
+        return self.__file_path
+    
         

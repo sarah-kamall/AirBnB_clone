@@ -39,9 +39,7 @@ class FileStorage():
                 for value in dict.values():
                     cls = value["__class__"]
                     self.new(eval(cls)(**value))
-        except FileNotFoundError:
-            print("File does not exist.")
-        except PermissionError:
-            print("File is not readable due to permission issues.")
+        except Exception:
+            pass
     
         

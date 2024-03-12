@@ -2,6 +2,7 @@
 """
 Test suits for the base model
 """
+import os
 import unittest
 from models.base_model import BaseModel
 from datetime import datetime
@@ -31,7 +32,7 @@ class TestFileStorage(unittest.TestCase):
         test if a valid objects
         """
         fs = FileStorage()
-        objs = fs.get_objects()
+        objs = fs.all()
         self.assertEqual(type(objs),dict)
 
     def test_save(self):
@@ -39,13 +40,42 @@ class TestFileStorage(unittest.TestCase):
         test save function
         """
         my_model=BaseModel()
+        my_model.save()
         fs = FileStorage()
         found =0 
+        
         all_objs = storage.all()
         for obj_id in all_objs.keys():
             
             if ((my_model.__class__.__name__ +'.' + my_model.id) == obj_id):
                 found += 1
+        self.assertEqual(found, 1)
+
+        
+    def test_reload(self):
+        """
+        test reload function
+        """
+        bm = BaseModel()
+        fs = FileStorage()
+        bm.updated_at = datetime.utcnow()
+        fs.new(bm)
+        
+        try:    
+            os.remove(file_path)
+        except:
+            pass
+        fs.save()
+        try:
+            fs._FileStorage__objects.clear()
+        except:
+            pass
+        fs.reload()
+
+        all_reloaded = fs.all()
+        found =1
+        if all_reloaded.get(bm.id) is None and all_reloaded.get("{}.{}".format("BaseModel", bm.id)) is None:
+            found =0
         self.assertEqual(found, 1)
 if __name__ == "__main__":
     unittest.main()

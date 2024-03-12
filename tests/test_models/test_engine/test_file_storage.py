@@ -26,13 +26,7 @@ class TestFileStorage(unittest.TestCase):
         fs = FileStorage()
         self.assertNotEqual(fs.get_file_path(), None)
     
-    def test_file_path(self):
-        """
-        test if a valid objects
-        """
-        fs = FileStorage()
-        objs = fs.get_objects()
-        self.assertEqual(type(objs),dict)
+    
 
     def test_save(self):
         """

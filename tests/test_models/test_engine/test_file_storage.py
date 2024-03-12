@@ -19,9 +19,17 @@ class TestFileStorage(unittest.TestCase):
         pass
 
     def test_file_path(self):
+        """
+        test if a valid file path
+        """
         fs = FileStorage()
         self.assertNotEqual(fs.get_file_path(), None)
-
+    
+    def test_file_path(self):
+        """
+        test if a valid objects
+        """
+        pass
 
 if __name__ == "__main__":
     unittest.main()

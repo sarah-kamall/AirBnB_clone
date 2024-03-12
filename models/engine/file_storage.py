@@ -44,5 +44,8 @@ class FileStorage():
     
     def get_file_path(self):
         return self.__file_path
+
+    def get_objects(self):
+        return self.__objects
     
         

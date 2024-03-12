@@ -58,12 +58,15 @@ class HBNBCommand(cmd.Cmd):
         del(d[key])
         storage.save()
     def do_all():
-        """Shows all instances, or instances of a certain class
+        pass
+        """
+        Shows all instances, or instances of a certain class
 
         Args: 
             line(args): enter with command (optional): <class name>
             Example: 'all' OR 'all User'
 
+        """
         """
         store = storage.all()
 
@@ -71,16 +74,16 @@ class HBNBCommand(cmd.Cmd):
             print([str(x) for x in store.values()])
             return
         args = line.split()
-        f args[1][0] == '"':
+        if args[1] == '"':
             args[1] = args[1].replace('"', "")
         key = args[0] + '.' + args[1]
         for my_key in store:
             if (key == my_key):
-                
+                pass
         if (my_error(self,line,2)):
             return
          
-        
+    """   
     def my_error(self,line,numargs):
         """
         A function that displays errors to the users
@@ -130,7 +133,7 @@ class HBNBCommand(cmd.Cmd):
         """ 
         do nothing on empty lines
         """
-        return True
+        return False
     def do_help(self,args):
         """
         help : displays help for args

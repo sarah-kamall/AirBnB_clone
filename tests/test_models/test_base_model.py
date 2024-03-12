@@ -35,11 +35,15 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual([my_new_model.id, my_new_model.name, my_new_model.created_at, my_new_model.my_number],
                         [my_model.id, my_model.name, my_model.created_at, my_model.my_number])
     
-    def test_save(self):
+    def test_str(self):
         """
         tests save function
         """
-        pass
+        my_model = BaseModel()
+        my_model.name = "My First Model"
+        my_model.my_number = 89
+        mystr = "[{}] ({}) {}".format('BaseModel', my_model.id, my_model.__dict__)
+        self.assertEqual(mystr, my_model.__str__())
 
 if __name__ == "__main__":
     unittest.main()

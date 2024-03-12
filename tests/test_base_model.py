@@ -12,7 +12,7 @@ class TestBaseModel(unittest.TestCase):
     """
     def setUp(self):
         """
-        fuction for setting up classes needed in testing
+        fuction for ;2setting up classes needed in testing
         """
         pass
 
@@ -34,7 +34,13 @@ class TestBaseModel(unittest.TestCase):
         my_new_model = BaseModel(**my_model_json)
         self.assertEqual([my_new_model.id, my_new_model.name, my_new_model.created_at, my_new_model.my_number],
                         [my_model.id, my_model.name, my_model.created_at, my_model.my_number])
-                        
+    
+    def test_save(self):
+        """
+        tests save function
+        """
+        pass
+
 if __name__ == "__main__":
     unittest.main()
 

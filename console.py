@@ -12,6 +12,40 @@ class HBNBCommand(cmd.Cmd):
     command interpreter class
     """
     prompt = '(hbnb) '
+    def my_error(self,line,numargs):
+        """
+        A function that displays errors to the users
+        """
+        classes = ['BaseModel']
+        error_megs=["** class name missing **",
+                    "** class doesn't exist **",
+                    "** instance id missing **",
+                    "** no instance found **",
+                    "** attribute name missing **",
+                    "** value missing **"]
+        if not line:
+            print(error_megs[0])
+            return True
+        args = line.split(" ")
+        if numargs >=1 and (args[0] not in classes):
+            print (error_megs[1])
+            return True 
+        elif numargs == 1:
+            return 0
+        if numargs >=2 and len(args) < 2:
+            print(error_megs[2])
+            return True 
+        d = storage.all()
+
+        for i in range(len(args)):
+            if args[i][0] == '"':
+                args[i] = args[i].replace('"', "")
+        key = args[0] + '.' + args[1]
+        if numargs >=2 and key not in d:
+            print(msg[3])
+            return 1
+        elif numargs == 2:
+            return 0 
     def do_create(self, line):
         """Creates a new instance of @cls_name class,
         and prints the new instance's ID.
@@ -21,7 +55,7 @@ class HBNBCommand(cmd.Cmd):
             Example: 'create User'
 
         """
-        if(my_error(self,line,1)):
+        if(self.my_error(line,1)):
             return 
         args.line.split(" ")
         cls = eval(args[0])
@@ -34,7 +68,7 @@ class HBNBCommand(cmd.Cmd):
             Example: 'show User 1234-1234-1234'
 
         """
-        if (my_error(self,line,2)):
+        if (self.my_error(line,2)):
             return 
         args = line.split(" ")
         d = storage.all()
@@ -57,8 +91,7 @@ class HBNBCommand(cmd.Cmd):
         key = args[0] + '.' + args[1]
         del(d[key])
         storage.save()
-    def do_all():
-        pass
+    def do_all(self, line):
         """
         Shows all instances, or instances of a certain class
 
@@ -67,55 +100,21 @@ class HBNBCommand(cmd.Cmd):
             Example: 'all' OR 'all User'
 
         """
-        """
+        
         store = storage.all()
-
+        
         if not line:
             print([str(x) for x in store.values()])
             return
         args = line.split()
-        if args[1] == '"':
-            args[1] = args[1].replace('"', "")
-        key = args[0] + '.' + args[1]
-        for my_key in store:
-            if (key == my_key):
-                pass
-        if (my_error(self,line,2)):
+        if (self.my_error(line, 1)):
             return
-         
-    """   
-    def my_error(self,line,numargs):
-        """
-        A function that displays errors to the users
-        """
-        classes = ['BaseModule']
-        error_megs=["** class name missing **",
-                    "** class doesn't exist **",
-                    "** instance id missing **",
-                    "** no instance found **",
-                    "** attribute name missing **",
-                    "** value missing **"]
-        if not line:
-            print(error_megs[0])
-            return True
-        args = line.split(" ")
-        if numargs >=1 and (args[0] not in classes):
-            priint (error_megs[1])
-            return True 
-        if numargs >=2 and len(args) < 2:
-            print(error_megs[2])
-            return True 
-        d = storage.all()
-
-        for i in range(len(args)):
-            if args[i][0] == '"':
-                args[i] = args[i].replace('"', "")
-        key = args[0] + '.' + args[1]
-        if numargs >=2 and key not in d:
-            print(msg[3])
-            return 1
-        elif numargs == 2:
-            return 0 
+        for my_key in store.values():
+            if (args[0] == my_key.__class__.__name__):
+                print(str(my_key))
+     
+      
+   
         
     def do_quit(self, line):
         """

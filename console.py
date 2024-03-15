@@ -65,8 +65,8 @@ class HBNBCommand(cmd.Cmd):
         """
         if(self.my_error(line,1)):
             return 
-        args.line.split(" ")
-        cls = eval(args[0])
+        args=line.split(" ")
+        cls = eval(args[0])()
         print(cls.id)
     def do_show(self, line):
         """

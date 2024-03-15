@@ -17,35 +17,43 @@ class HBNBCommand(cmd.Cmd):
         A function that displays errors to the users
         """
         classes = ['BaseModel']
-        error_megs=["** class name missing **",
+        error_msg=["** class name missing **",
                     "** class doesn't exist **",
                     "** instance id missing **",
                     "** no instance found **",
                     "** attribute name missing **",
                     "** value missing **"]
         if not line:
-            print(error_megs[0])
+            print(error_msg[0])
             return True
         args = line.split(" ")
         if numargs >=1 and (args[0] not in classes):
-            print (error_megs[1])
+            print (error_msg[1])
             return True 
         elif numargs == 1:
             return 0
         if numargs >=2 and len(args) < 2:
-            print(error_megs[2])
+            print(error_msg[2])
             return True 
         d = storage.all()
 
         for i in range(len(args)):
-            if args[i][0] == '"':
+            if len(args[i])>0 and args[i][0] == '"':
                 args[i] = args[i].replace('"', "")
         key = args[0] + '.' + args[1]
         if numargs >=2 and key not in d:
-            print(msg[3])
+            print(error_msg[3])
             return 1
         elif numargs == 2:
             return 0 
+        if numargs >= 4 and len(args) < 3:
+            print(error_msg[4])
+            return 1
+        if numargs >= 4 and len(args) < 4:
+            print(error_msg[5])
+            return 1
+        return 0
+
     def do_create(self, line):
         """Creates a new instance of @cls_name class,
         and prints the new instance's ID.
@@ -112,8 +120,7 @@ class HBNBCommand(cmd.Cmd):
         for my_key in store.values():
             if (args[0] == my_key.__class__.__name__):
                 print(str(my_key))
-     
-      
+        
    
         
     def do_quit(self, line):
@@ -154,5 +161,34 @@ class HBNBCommand(cmd.Cmd):
             for command in self.get_names():
                 if command.startswith('do_'):
                     print(command[3:])
+    def do_update(self,line):
+        """Updates an instance based on the class name
+        and id by adding or updating an attribute
+
+        Args:
+            line(args): receives the commands:
+            <class name> <id> <attribute name> "<attribute value>"
+            Example: 'update User 1234-1234-1234 my_name "Bob"'
+
+        """
+        store = storage.all()
+        if (self.my_error(line,4)):
+            return 
+        args = line.split()
+        key = args[0]+'.'+args[1]
+        myobj = store[key]
+       
+        class_attr = type(store[key]).__dict__ 
+        if args[2] in class_attr.keys():
+            try:
+                args[3] = type(class_attr[args[2]])(args[3])
+            except Exception:
+                print("Entered wrong value type")
+                return
+        setattr(store[key],args[2],args[3])
+        storage.save()
+
+
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

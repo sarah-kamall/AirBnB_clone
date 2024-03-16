@@ -5,17 +5,21 @@
 import cmd 
 import uuid
 from models.base_model import BaseModel
+from models.user import User
 import json 
 from models import storage
+
 class HBNBCommand(cmd.Cmd):
     """
     command interpreter class
     """
+  
     prompt = '(hbnb) '
     def my_error(self,line,numargs):
         """
         A function that displays errors to the users
         """
+        print(0)
         classes = ['BaseModel', 'User']
         error_msg=["** class name missing **",
                     "** class doesn't exist **",
@@ -55,7 +59,8 @@ class HBNBCommand(cmd.Cmd):
         return 0
 
     def do_create(self, line):
-        """Creates a new instance of @cls_name class,
+        """
+        Creates a new instance of @cls_name class,
         and prints the new instance's ID.
 
         Args:
@@ -127,18 +132,21 @@ class HBNBCommand(cmd.Cmd):
    
         
     def do_quit(self, line):
+        print(1)
         """
         exit the program
         """
         return True
 
     def do_EOF(self, line):
+        print(2)
         """
         detect ctrl+D
         """
         return True
     
     def emptyline(self):
+        print(3)
         """ 
         do nothing on empty lines
         """
@@ -190,6 +198,8 @@ class HBNBCommand(cmd.Cmd):
                 return
         setattr(store[key],args[2],args[3])
         storage.save()
-
+if __name__ == '__main__':
+    cli = HBNBCommand()
+    cli.cmdloop()
 
 

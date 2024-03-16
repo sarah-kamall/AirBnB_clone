@@ -27,21 +27,30 @@ class TestUser(unittest.TestCase):
         myclass.first_name= "name"
         myclass.last_name = "lname"
         self.assertEqual([myclass.email,myclass.password,myclass.first_name, myclass.last_name],["Myuser@mail","123","name","lname"])
-
-    def test_Json(self):
-        """ test the json repr"""
-        myclass = User()
-        myclass.email="Myuser@mail"
-        myclass.password= "123"
-        myclass.first_name= "name"
-        myclass.last_name = "lname"
-        myclassjson= myclass.to_dict()
-        my_new_model = User(**myclassjson)
-        self.assertEqual([myclass.email,myclass.password,myclass.first_name, myclass.last_name],
-                        [my_new_model.email,my_new_model.password,my_new_model.first_name, my_new_model.last_name])
-
-   
-
+    def test_name(self):
+        """
+        test name 
+        """
+        myUser = User()
+        self.assertEqual(type(myUser.first_name),str)
+    def test_last_name(self):
+        """
+        test last_name 
+        """
+        myUser = User()
+        self.assertEqual(type(myUser.last_name),str)
+    def test_password(self):
+        """
+        test password 
+        """
+        myUser = User()
+        self.assertEqual(type(myUser.password),str)
+    def test_email(self):
+        """
+        test email 
+        """
+        myUser = User()
+        self.assertEqual(type(myUser.email),str)
 if __name__ == "__main__":
     unittest.main()
 

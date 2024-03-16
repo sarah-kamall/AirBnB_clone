@@ -44,6 +44,7 @@ with open("tmp_console_main.py", "r") as file_i:
                 file_o.write(line)
 
 import console
+from models import storage
 
 """
  Create console
@@ -76,16 +77,17 @@ result = exec_command(my_console, "create BaseModel")
 if result is None or result == "":
     print("FAIL: No ID retrieved")
     
-model_id = result
+with open(file_path, "r") as file:
+    s_file = file.read()
+    if result not in s_file:
+        print("FAIL: New ID not in the JSON file")
 
-result = exec_command(my_console, "destroy BaseModel")
-if result is None or result == "":
-    print("FAIL: no output")
-    
-search_str = "** instance id missing **"
-if result != search_str:
-    print("FAIL: wrong message: \"{}\" instead of \"{}\"".format(result, search_str))
-    
+model_id = result
+exec_command(my_console, "destroy BaseModel {}".format(model_id))
+with open(file_path, "r") as file:
+    s_file = file.read()
+    if model_id in s_file:
+        print("FAIL: New ID is still in the JSON file")
 print("OK", end="")
 
 shutil.copy("tmp_console_main.py", "console.py")

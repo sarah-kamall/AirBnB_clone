@@ -19,7 +19,7 @@ class HBNBCommand(cmd.Cmd):
         """
         A function that displays errors to the users
         """
-        print(0)
+        
         classes = ['BaseModel', 'User']
         error_msg=["** class name missing **",
                     "** class doesn't exist **",
@@ -132,21 +132,20 @@ class HBNBCommand(cmd.Cmd):
    
         
     def do_quit(self, line):
-        print(1)
+       
         """
         exit the program
         """
         return True
 
     def do_EOF(self, line):
-        print(2)
         """
         detect ctrl+D
         """
         return True
     
     def emptyline(self):
-        print(3)
+     
         """ 
         do nothing on empty lines
         """

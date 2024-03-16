@@ -93,11 +93,13 @@ class HBNBCommand(cmd.Cmd):
             Example: 'destroy User 1234-1234-1234'
 
         """
-        rgs = line.split(" ")
+        if (self.my_error(line,2)):
+            return
+        args = line.split(" ")
         d = storage.all()
         if args[1][0] == '"':
             args[1] = args[1].replace('"', "")
-        key = args[0] + '.' + args[1]
+            key = args[0] + '.' + args[1]
         del(d[key])
         storage.save()
     def do_all(self, line):

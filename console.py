@@ -16,7 +16,7 @@ class HBNBCommand(cmd.Cmd):
         """
         A function that displays errors to the users
         """
-        classes = ['BaseModel']
+        classes = ['BaseModel', 'User']
         error_msg=["** class name missing **",
                     "** class doesn't exist **",
                     "** instance id missing **",

@@ -13,7 +13,7 @@ class TestBaseModel(unittest.TestCase):
     """
     def setUp(self):
         """
-        fuction for ;2setting up classes needed in testing
+        fuction for setting up classes needed in testing
         """
         pass
 
@@ -38,7 +38,7 @@ class TestBaseModel(unittest.TestCase):
     
     def test_str(self):
         """
-        tests save function
+        tests str function
         """
         my_model = BaseModel()
         my_model.name = "My First Model"
@@ -47,6 +47,9 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(mystr, my_model.__str__())
     
     def test_save(self):
+        """
+        tests save function
+        """
         my_model = BaseModel()
         my_time = my_model.updated_at
         time.sleep(0.001)
